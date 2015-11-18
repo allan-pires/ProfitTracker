@@ -34,7 +34,25 @@ function calculateReturnedValue(){
     return returned_sum;
 }
 
-function printTotalValues(won_value, returned_value){
+function calculateCurrentBets(){
+    var bet_sum = 0.0;
+
+    var matches = document.getElementsByClassName("match");
+
+    for (i = 0; i < matches.length; i++) {
+        var bet_itens = matches[i].getElementsByClassName("winsorloses")[1].getElementsByClassName("oitm");
+
+        for(j = 0; j < bet_itens.length; j++){
+            var text = bet_itens[j].getElementsByClassName("value")[0].textContent;
+            var value = parseFloat(text.replace("$", ""));
+            bet_sum += value;
+        }
+    }
+
+    return bet_sum;
+}
+
+function printTotalValues(won_value, returned_value, bet_value){
 
     document.getElementsByClassName("bpheader")[0].innerHTML += '</br>';
 
@@ -46,12 +64,15 @@ function printTotalValues(won_value, returned_value){
 
     // Prints the total value
     document.getElementsByClassName("bpheader")[0].innerHTML += '</br>Total (won + returned): $' + (won_value+returned_value).toFixed(2);
+
+    document.getElementsByClassName("matchheader")[0].innerHTML += '</br>Bets: $' + bet_value.toFixed(2);
 }
 
 function main() {
     var won_value = calculateWonValue();
     var returned_value = calculateReturnedValue();
+    var bet_value = calculateCurrentBets();
 
-    printTotalValues(won_value, returned_value);
+    printTotalValues(won_value, returned_value, bet_value);
 }
 main();
